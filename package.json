@@ -1,0 +1,16 @@
+{
+	"name": "find-duplicate-words",
+	"version": "1.0.0",
+	"description": "",
+	"author": "Taskworld Inc.",
+	"scripts": {
+		"test": "ts-node index.ts && echo PASSED"
+	},
+	"license": "ISC",
+	"devDependencies": {
+		"@types/node": "^17.0.8",
+		"expect": "^27.4.6",
+		"ts-node": "^10.4.0",
+		"typescript": "^4.0.0"
+	}
+}
