@@ -5,6 +5,7 @@
 			"esnext",
 			"dom"
 		],
+		"outDir": "out",
 		"module": "commonjs",
 		"moduleResolution": "node",
 		"strict": true,
