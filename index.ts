@@ -1,4 +1,4 @@
-import expect from 'expect'
+import expect from './expect'
 
 expect(findDuplicateWords('one two two three three three'))
 	.toEqual(['two', 'three'])
@@ -8,7 +8,8 @@ expect(findDuplicateWords(`The death finds everyone,
 	.toEqual(['death', 'everyone'])
 
 /**
- * You must NOT visit any websites other than https://developer.mozilla.org and https://w3schools.com
+ * You must NOT visit any websites other than
+ * https://developer.mozilla.org and https://w3schools.com
  * 
  * Extra points if your function has...
  * - No mutations
