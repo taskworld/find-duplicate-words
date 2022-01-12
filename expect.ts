@@ -24,6 +24,32 @@ export default function expect<T>(reality: T) {
 					throw new Error(`FAILED`)
 				}
 			}
+		},
+
+		toBeLessThan(expectation: number) {
+			if (typeof reality === 'number' && !isNaN(reality)) {
+				if (reality < expectation) {
+					console.log(`🟢 Expect ${reality.toFixed(3)} to be less than ${expectation.toFixed(3)}`)
+
+				} else {
+					failureCount += 1
+
+					console.error(`❌ Expect ${reality.toFixed(3)} to be less than ${expectation.toFixed(3)}`)
+
+					if (process.env.VSCODE_INSPECTOR_OPTIONS) {
+						throw new Error(`FAILED`)
+					}
+				}
+
+			} else {
+				failureCount += 1
+
+				console.error(`❌ Expect ${JSON.stringify(reality)} to be a number`)
+				
+				if (process.env.VSCODE_INSPECTOR_OPTIONS) {
+					throw new Error(`FAILED`)
+				}
+			}
 		}
 	}
 }
