@@ -26,6 +26,23 @@ export default function expect<T>(reality: T) {
 			}
 		},
 
+		toBe(expectation: T) {
+			const source = JSON.stringify(expectation)
+
+			if (expectation === reality) {
+				console.log(`🟢 Expect ${source}`)
+
+			} else {
+				failureCount += 1
+
+				console.error(`❌ Expect ${source}\n   but got ${colorDiffArray(expectation, reality)}`)
+
+				if (process.env.VSCODE_INSPECTOR_OPTIONS) {
+					throw new Error(`FAILED`)
+				}
+			}
+		},
+
 		toBeLessThan(expectation: number) {
 			if (typeof reality === 'number' && !isNaN(reality)) {
 				if (reality < expectation) {

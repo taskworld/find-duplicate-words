@@ -1,33 +1,77 @@
 import expect from './expect'
-import measure from './measure'
-import times from 'lodash/times'
 
-expect(findDuplicateWords('one two two three three three'))
-	.toEqual(['two', 'three'])
+type TreeNode = { value: number, childNodes: Array<TreeNode> }
 
-expect(findDuplicateWords(`The death finds everyone,
-    everyone loves yourself to death`))
-	.toEqual(['death', 'everyone'])
+//         100
+//        /   \
+//       4     3
+//      / \   / \
+//     1   9 2   3
+//           |
+//           3
+const rootNode: TreeNode = {
+	value: 100,
+	childNodes: [
+		{
+			value: 4,
+			childNodes: [
+				{
+					value: 1,
+					childNodes: []
+				},
+				{
+					value: 9,
+					childNodes: []
+				},
+			]
+		},
+		{
+			value: 3,
+			childNodes: [
+				{
+					value: 2,
+					childNodes: [
+						{
+							value: 3,
+							childNodes: []
+						},
+					]
+				},
+				{
+					value: 3,
+					childNodes: []
+				},
+			]
+		}
+	]
+}
 
-// #region
-// Generate test data, which the second test data is twice the size of the first one
-const data10k = times(10_000).join(' ')
-const data20k = times(20_000).join(' ')
+{ // Test case #1
+	//         100
+	//        /   \
+	//       4     3
+	//      / \   / \
+	//     1   9 2   3
+	//           |
+	//           3 <-- Find this node!
+	const matchingNode = rootNode.childNodes[1].childNodes[0].childNodes[0]
+	expect(findDeepestNode(rootNode, matchingNode.value)).toBe(matchingNode)
+}
 
-// Measure time spent in milliseconds for each test data
-const time10k = measure(() => { findDuplicateWords(data10k) })
-const time20k = measure(() => { findDuplicateWords(data20k) })
+{ // Test case #2
+	// Detach node-3-level-3 from its parent
+	rootNode.childNodes[1].childNodes[0].childNodes.splice(0, 1)
 
-// Expect the function to take 2x longer, given 2x the size of the test data
-// Hence linear time performance “O(n)”
-expect(time20k).toBeLessThan(time10k * 2)
-// #endregion
+	//         100
+	//        /   \
+	//       4     3
+	//      / \   / \
+	//     1   9 2   3 <-- Find this node!
+	const matchingNode = rootNode.childNodes[1].childNodes[1]
+	expect(findDeepestNode(rootNode, matchingNode.value)).toBe(matchingNode)
+}
 
-/**
- * You must NOT visit any websites other than
- * https://developer.mozilla.org and https://w3schools.com
- */
-function findDuplicateWords(input: string): Array<string> {
+function findDeepestNode(inputNode: TreeNode, value: number): TreeNode | null {
 	// Your implementation goes here
-	return []
+	return null
 }
