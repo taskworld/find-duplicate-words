@@ -5,6 +5,15 @@ import chalk from 'chalk'
 let totalCount = 0
 let failureCount = 0
 
+let outputBuffer = ''
+function log(line: string = '') {
+	if (process.env.VSCODE_INSPECTOR_OPTIONS) {
+		console.log(line)
+	} else {
+		outputBuffer += line + '\n'
+	}
+}
+
 export default function expect<T>(reality: T) {
 	totalCount += 1
 
@@ -13,12 +22,12 @@ export default function expect<T>(reality: T) {
 			const source = JSON.stringify(expectation)
 
 			if (isEqual(expectation, reality)) {
-				console.log(`🟢 Expect ${source}`)
+				log(`🟢 Expect ${source}`)
 
 			} else {
 				failureCount += 1
 
-				console.error(`❌ Expect ${source}\n   but got ${colorDiffArray(expectation, reality)}`)
+				log(`❌ Expect ${source}\n   but got ${colorDiffArray(expectation, reality)}`)
 
 				if (process.env.VSCODE_INSPECTOR_OPTIONS) {
 					throw new Error(`FAILED`)
@@ -29,12 +38,12 @@ export default function expect<T>(reality: T) {
 		toBeLessThan(expectation: number) {
 			if (typeof reality === 'number' && !isNaN(reality)) {
 				if (reality < expectation) {
-					console.log(`🟢 Expect ${reality.toFixed(3)} to be less than ${expectation.toFixed(3)}`)
+					log(`🟢 Expect ${reality.toFixed(3)} to be less than ${expectation.toFixed(3)}`)
 
 				} else {
 					failureCount += 1
 
-					console.error(`❌ Expect ${reality.toFixed(3)} to be less than ${expectation.toFixed(3)}`)
+					log(`❌ Expect ${reality.toFixed(3)} to be less than ${expectation.toFixed(3)}`)
 
 					if (process.env.VSCODE_INSPECTOR_OPTIONS) {
 						throw new Error(`FAILED`)
@@ -44,8 +53,8 @@ export default function expect<T>(reality: T) {
 			} else {
 				failureCount += 1
 
-				console.error(`❌ Expect ${JSON.stringify(reality)} to be a number`)
-				
+				log(`❌ Expect ${JSON.stringify(reality)} to be a number`)
+
 				if (process.env.VSCODE_INSPECTOR_OPTIONS) {
 					throw new Error(`FAILED`)
 				}
@@ -57,15 +66,18 @@ export default function expect<T>(reality: T) {
 if (!process.env.VSCODE_INSPECTOR_OPTIONS) {
 	process.on('exit', () => {
 		if (totalCount > 0) {
-			console.log()
+			log()
 
 			if (failureCount === 0) {
-				console.log(chalk.green('PASSED'))
+				log(chalk.green('PASSED'))
 
 			} else {
 				process.exitCode = 1
-				console.log(chalk.red(`${failureCount}/${totalCount} FAILED`))
+				log(chalk.red(`${failureCount}/${totalCount} FAILED`))
 			}
+
+			console.log()
+			console.log(outputBuffer.trim())
 		}
 	})
 }
