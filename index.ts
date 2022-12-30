@@ -24,14 +24,14 @@ function findDuplicateWords(input: string): Array<string> {
 // Pass -p argument to turn on additional test cases
 if (process.argv.includes('-p')) {
 	// Generate test data, which the second test data is twice the size of the first one
-	const data10k = times(10_000).join(' ')
-	const data20k = times(20_000).join(' ')
+	const data1x = times(1_000_000).join(' ')
+	const data2x = times(2_000_000).join(' ')
 
 	// Measure time spent in milliseconds for each test data
-	const time10k = measure(() => { findDuplicateWords(data10k) })
-	const time20k = measure(() => { findDuplicateWords(data20k) })
+	const time1x = measure(() => { findDuplicateWords(data1x) })
+	const time2x = measure(() => { findDuplicateWords(data2x) })
 
 	// Expect the function to take 2x longer, given 2x the size of the test data
 	// Hence linear time performance “O(n)”
-	expect(time20k).toBeLessThan(time10k * 2)
+	expect(time2x / time1x).toBeLessThan(2)
 }

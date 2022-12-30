@@ -22,7 +22,7 @@ export default function expect<T>(reality: T) {
 			const source = JSON.stringify(expectation)
 
 			if (isEqual(expectation, reality)) {
-				log(`🟢 Expect ${source}`)
+				log(`🟢 Passed ${source}`)
 
 			} else {
 				failureCount += 1
@@ -38,12 +38,12 @@ export default function expect<T>(reality: T) {
 		toBeLessThan(expectation: number) {
 			if (typeof reality === 'number' && !isNaN(reality)) {
 				if (reality < expectation) {
-					log(`🟢 Expect ${reality.toFixed(3)} to be less than ${expectation.toFixed(3)}`)
+					log(`🟢 Passed ${reality.toFixed(1)} to be less than ${expectation.toFixed(1)}`)
 
 				} else {
 					failureCount += 1
 
-					log(`❌ Expect ${reality.toFixed(3)} to be less than ${expectation.toFixed(3)}`)
+					log(`❌ Expect ${reality.toFixed(1)} to be less than ${expectation.toFixed(1)}`)
 
 					if (process.env.VSCODE_INSPECTOR_OPTIONS) {
 						throw new Error(`FAILED`)
