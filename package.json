@@ -4,7 +4,8 @@
 	"description": "",
 	"author": "Taskworld Inc.",
 	"scripts": {
-		"test": "nodemon index.ts"
+		"test": "nodemon index.ts",
+		"test-p": "nodemon index.ts -p"
 	},
 	"license": "ISC",
 	"devDependencies": {
